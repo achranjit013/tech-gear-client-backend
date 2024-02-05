@@ -15,7 +15,13 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 // port etup
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8100;
+
+// api endpoints
+import productRouter from "./src/routers/productRouter.js";
+app.use("/api/v1/products", productRouter);
+import categoryRouter from "./src/routers/categoryRouter.js";
+app.use("/api/v1/categories", categoryRouter);
 
 // basic setup
 app.get("/", (req, res, next) => {
