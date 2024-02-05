@@ -20,18 +20,9 @@ router.get("/:_id?", async (req, res, next) => {
     //
     const { _id } = req.params;
 
-    console.log(_id);
-
     const findResult = _id
       ? await collection.findOne({ _id: new ObjectId(_id) })
       : await collection.find({}).toArray();
-
-    // const findResult = await collection
-    //   .find({})
-    //   .sort({ createdAt: -1 })
-    //   .limit(12)
-    //   .toArray();
-    console.log("Found documents =>", findResult);
 
     return res.json({
       status: "success",

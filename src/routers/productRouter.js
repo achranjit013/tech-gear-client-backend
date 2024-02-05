@@ -17,12 +17,8 @@ router.get("/:slug?", async (req, res, next) => {
     const db = client.db(dbName);
     const collection = db.collection("products");
 
-    //
+    // slug
     const { slug } = req.params;
-
-    console.log(slug);
-
-    // const products = _id ? await getAProduct({ _id }) : await getProducts();
 
     // the following code examples can be pasted here...
     const options = {
@@ -30,18 +26,9 @@ router.get("/:slug?", async (req, res, next) => {
       limit: 12,
     };
 
-    // const findResult = await collection.find({}, options).toArray();
-    // await collection.findOne({ _id: new ObjectId(_id) })
     const findResult = slug
       ? await collection.findOne({ slug })
       : await collection.find({}, options).toArray();
-
-    // const findResult = await collection
-    //   .find({})
-    //   .sort({ createdAt: -1 })
-    //   .limit(12)
-    //   .toArray();
-    console.log("Found documents =>", findResult);
 
     return res.json({
       status: "success",
