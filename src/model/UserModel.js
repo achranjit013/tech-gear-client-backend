@@ -17,6 +17,10 @@ export const getUserByEmail = (email) => {
   return collection.findOne({ email });
 };
 
+export const getUserByEmailAndRefreshJWT = (email, refreshJWT) => {
+  return collection.findOne({ email, refreshJWT });
+};
+
 // update user
 export const updateUser = (filter, update) => {
   /* Set the upsert option to insert a document if no documents match the filter */

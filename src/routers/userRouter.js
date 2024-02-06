@@ -4,9 +4,11 @@ import { comparePassword } from "../utils/bcryptHelper.js";
 import { getUserByEmail } from "../model/UserModel.js";
 import { getJWTs } from "../utils/jwtHelper.js";
 import { responder } from "../middlewares/response.js";
+import { refreshAuth, userAuth } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
+// login
 router.post("/login", loginValidation, async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -38,5 +40,21 @@ router.post("/login", loginValidation, async (req, res, next) => {
     next(error);
   }
 });
+
+// get user info
+router.get("/", userAuth, async (req, res, next) => {
+  try {
+    responder.SUCESS({
+      res,
+      message: "user info",
+      user: req.userInfo,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// get access jwt
+router.get("/get-accessjwt", refreshAuth);
 
 export default router;

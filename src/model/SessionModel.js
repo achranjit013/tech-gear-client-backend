@@ -16,3 +16,7 @@ let collection;
 export const createNewSession = (sessionObj) => {
   return collection.insertOne(sessionObj);
 };
+
+export const getSession = (sessionObj) => {
+  return collection.findOne(sessionObj);
+};
