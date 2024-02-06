@@ -2,26 +2,35 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { connectDb } from "./src/config/dbConfig.js";
 
 const app = express();
 
-// db config
-connectDb();
+// port setup
+const PORT = process.env.PORT || 8100;
+
+// connection to database;
+import { connectToDatabase } from "./src/config/databaseConnection.js";
+const uri = process.env.MONGO_URL;
+(async () => {
+  try {
+    await connectToDatabase(uri);
+  } catch (error) {
+    console.error("Error starting the server:", error);
+  }
+})();
 
 // middlewares
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-// port etup
-const PORT = process.env.PORT || 8100;
-
 // api endpoints
 import productRouter from "./src/routers/productRouter.js";
 app.use("/api/v1/products", productRouter);
 import categoryRouter from "./src/routers/categoryRouter.js";
 app.use("/api/v1/categories", categoryRouter);
+import userRouter from "./src/routers/userRouter.js";
+app.use("/api/v1/users", userRouter);
 
 // basic setup
 app.get("/", (req, res, next) => {

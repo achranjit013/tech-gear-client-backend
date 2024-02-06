@@ -1,0 +1,11 @@
+@rootEP = http://localhost:8100
+@userEP = {{rootEP}}/api/v1/users
+
+### login
+POST {{userEP}}/login
+Content-Type: application/json
+
+{
+  "email":"r@r.com",
+  "password":"1!qQqq"
+}
