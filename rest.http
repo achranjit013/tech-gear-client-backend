@@ -1,5 +1,6 @@
 @rootEP = http://localhost:8100
 @userEP = {{rootEP}}/api/v1/users
+@prodEP = {{rootEP}}/api/v1/products
 
 ### login
 POST {{userEP}}/login
@@ -9,3 +10,13 @@ Content-Type: application/json
   "email":"r@r.com",
   "password":"1!qQqq"
 }
+
+###get products for cart
+GET {{prodEP}}/cart-item
+Content-Type: application/json
+
+{
+  "slug":"hello-product",
+  "size":"s"
+}
+
