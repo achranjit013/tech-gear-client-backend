@@ -1,5 +1,4 @@
 import Joi from "joi";
-import { connectToDatabase } from "../config/databaseConnection.js";
 import { responder } from "./response.js";
 
 // constants
@@ -16,6 +15,9 @@ const joiValidator = ({ schema, req, res, next }) => {
   try {
     const { error } = schema.validate(req.body);
 
+    console.log("error");
+    console.log(error);
+
     if (error) {
       return responder.ERROR({ res, message: error.message });
     }
@@ -30,6 +32,29 @@ export const loginValidation = async (req, res, next) => {
   const schema = Joi.object({
     email: EMAILREQ,
     password: SHORTSTRREQ,
+  });
+
+  joiValidator({ schema, req, res, next });
+};
+
+export const addNewCartValidation = (req, res, next) => {
+  const { _id } = req.userInfo;
+  req.body.userId = _id.toString();
+  const schema = Joi.object({
+    userId: SHORTSTRREQ,
+    productId: SHORTSTRREQ,
+    slug: SHORTSTRREQ,
+    qty: SHORTNUMREQ,
+    size: SHORTSTRREQ,
+  });
+
+  joiValidator({ schema, req, res, next });
+};
+
+export const updateCartValidation = (req, res, next) => {
+  const schema = Joi.object({
+    _id: SHORTNUMREQ,
+    qty: SHORTNUMREQ,
   });
 
   joiValidator({ schema, req, res, next });

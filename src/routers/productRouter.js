@@ -26,14 +26,20 @@ router.get("/cart-item/:slug&:size", async (req, res, next) => {
 });
 
 // get all products or one selected product
-router.get("/:slug?", async (req, res, next) => {
+router.get("/:slug?/:size?", async (req, res, next) => {
   try {
     // slug
-    const { slug } = req.params;
+    const { slug, size } = req.params;
 
-    const findResult = slug
-      ? await getAProductBySlug(slug)
-      : await getLatestArrivalProducts();
+    console.log("i am here");
+    console.log(slug, size);
+
+    const findResult =
+      slug && size
+        ? await getProductBySlugAndSize(slug, size)
+        : slug
+        ? await getAProductBySlug(slug)
+        : await getLatestArrivalProducts();
     console.log(findResult);
     responder.SUCESS({
       res,

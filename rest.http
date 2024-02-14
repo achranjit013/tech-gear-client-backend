@@ -1,6 +1,7 @@
 @rootEP = http://localhost:8100
 @userEP = {{rootEP}}/api/v1/users
 @prodEP = {{rootEP}}/api/v1/products
+@cartEP = {{rootEP}}/api/v1/cart
 
 ### login
 POST {{userEP}}/login
@@ -11,12 +12,20 @@ Content-Type: application/json
   "password":"1!qQqq"
 }
 
-###get products for cart
-GET {{prodEP}}/cart-item
+### post cart
+POST {{cartEP}}
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJAci5jb20iLCJpYXQiOjE3MDc3OTQyMDYsImV4cCI6MTcwNzc5NTEwNn0.NRHtt_kHuEpBHzO4HEJqh2EtsKkEWK9S7yvKjgQkgl8
 
 {
-  "slug":"hello-product",
-  "size":"s"
+  "productId": "65bd74f25d39f104f249681b",
+  "slug": "iphone-15-pro-max",
+  "qty": "3",
+  "size": "256GB"
 }
+
+###get cart
+GET {{cartEP}}/65bf1dd65d39f104f2496981&m
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJAci5jb20iLCJpYXQiOjE3MDc3ODkzNzAsImV4cCI6MTcwNzc5MDI3MH0.HSCFI4uvxZpiIEV58P5n-UxbZzESjIt7XSdGcaUxFk0
+
 

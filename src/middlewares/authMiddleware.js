@@ -12,11 +12,13 @@ import { responder } from "./response.js";
 
 export const userAuth = async (req, res, next) => {
   try {
+    console.log("into user auth");
     // get the access jwt
     const { authorization } = req.headers;
 
     // verify the access jwt
     const decoded = await verifyAccessJWT(authorization);
+    console.log(decoded);
 
     // get the user and check if active
     if (decoded?.email) {
@@ -44,6 +46,7 @@ export const userAuth = async (req, res, next) => {
       errorCode: 401,
     });
   } catch (error) {
+    console.log(error.message);
     // jwt expired
     if (error.message.includes("jwt expired")) {
       return responder.ERROR({
@@ -59,14 +62,19 @@ export const userAuth = async (req, res, next) => {
 
 export const refreshAuth = async (req, res, next) => {
   try {
+    console.log("i am into refresh auth");
     const { authorization } = req.headers; //refresh jwt
+    console.log(authorization);
     const decoded = await verifyRefreshJWT(authorization);
+    console.log(decoded);
 
     if (decoded?.email) {
       const user = await getUserByEmailAndRefreshJWT(
         decoded.email,
         authorization
       );
+
+      console.log("i am user: " + user);
 
       if (user?._id && user?.status === "active") {
         const accessJWT = await createAccessJWT(decoded.email);

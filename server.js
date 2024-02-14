@@ -8,7 +8,7 @@ const app = express();
 // port setup
 const PORT = process.env.PORT || 8100;
 
-// connection to database;
+// connection to remote database;
 import { connectToDatabase } from "./src/config/databaseConnection.js";
 const uri = process.env.MONGO_URL;
 (async () => {
@@ -18,6 +18,10 @@ const uri = process.env.MONGO_URL;
     console.error("Error starting the server:", error);
   }
 })();
+
+// connection to own databse
+import { connectDB } from "./src/config/dbConfig.js";
+connectDB();
 
 // middlewares
 app.use(cors());
@@ -31,6 +35,8 @@ import categoryRouter from "./src/routers/categoryRouter.js";
 app.use("/api/v1/categories", categoryRouter);
 import userRouter from "./src/routers/userRouter.js";
 app.use("/api/v1/users", userRouter);
+import cartRouter from "./src/routers/cartRouter.js";
+app.use("/api/v1/cart", cartRouter);
 
 // basic setup
 app.get("/", (req, res, next) => {
