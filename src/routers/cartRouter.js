@@ -96,12 +96,12 @@ router.delete("/", userAuth, async (req, res, next) => {
     findResult?._id
       ? responder.SUCESS({
           res,
-          message: "The item has been successfully deleted from your cart!",
+          message: "The item has been successfully removed from your cart!",
         })
       : responder.ERROR({
           res,
           message:
-            "Sorry, the item couldn't be deleted from your cart. Please try again later!",
+            "Sorry, the item couldn't be removed from your cart. Please try again later!",
         });
   } catch (error) {
     next(error);

@@ -41,6 +41,7 @@ export const addNewCartValidation = (req, res, next) => {
   const { _id } = req.userInfo;
   req.body.userId = _id.toString();
   const schema = Joi.object({
+    status: SHORTSTR,
     userId: SHORTSTRREQ,
     productId: SHORTSTRREQ,
     slug: SHORTSTRREQ,
