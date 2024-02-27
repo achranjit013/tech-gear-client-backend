@@ -3,8 +3,11 @@ import {
   getAProductBySlug,
   getLatestArrivalProducts,
   getProductBySlugAndSize,
+  updateAProductQtyBySlugAndSize,
 } from "../model/ProductModel.js";
 import { responder } from "../middlewares/response.js";
+import { userAuth } from "../middlewares/authMiddleware.js";
+import { updateProductQtyValidation } from "../middlewares/joiValidation.js";
 
 const router = express.Router();
 
@@ -31,16 +34,12 @@ router.get("/:slug?/:size?", async (req, res, next) => {
     // slug
     const { slug, size } = req.params;
 
-    console.log("i am here");
-    console.log(slug, size);
-
     const findResult =
       slug && size
         ? await getProductBySlugAndSize(slug, size)
         : slug
         ? await getAProductBySlug(slug)
         : await getLatestArrivalProducts();
-    console.log(findResult);
     responder.SUCESS({
       res,
       message: "successfully retrieved products",
@@ -50,5 +49,32 @@ router.get("/:slug?/:size?", async (req, res, next) => {
     next(error);
   }
 });
+
+router.patch(
+  "/",
+  userAuth,
+  updateProductQtyValidation,
+  async (req, res, next) => {
+    try {
+      const { slug, variants } = req.body;
+      const { size, qty } = variants[0];
+
+      const updateResult = await updateAProductQtyBySlugAndSize(
+        slug,
+        size,
+        qty
+      );
+
+      responder.SUCESS({
+        res,
+        message: "successfully updated",
+        updateResult,
+      });
+      // }
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 export default router;

@@ -23,6 +23,7 @@ router.post("/", userAuth, addNewCartValidation, async (req, res, next) => {
       userId,
       productId,
       size,
+      status: "active",
     });
 
     let findResult;
@@ -69,8 +70,9 @@ router.get("/", userAuth, async (req, res, next) => {
 // update cart
 router.patch("/", userAuth, updateCartValidation, async (req, res, next) => {
   try {
-    const { _id, qty } = req.body;
-    const findResult = await updateACartById({ _id }, { qty });
+    const { _id, ...rest } = req.body;
+
+    const findResult = await updateACartById({ _id }, rest);
 
     findResult?._id
       ? responder.SUCESS({

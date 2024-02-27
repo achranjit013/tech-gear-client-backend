@@ -52,3 +52,19 @@ export const getLatestArrivalProducts = () => {
 
   return collection.find({}, options).toArray();
 };
+
+export const updateAProductQtyBySlugAndSize = (slug, size, qty) => {
+  const query = {
+    slug,
+    "variants.size": size,
+  };
+
+  // Specify the update to set a value for the plot field
+  const updateDoc = {
+    $set: { "variants.$.qty": Number(qty) },
+  };
+
+  // { $set: { "variants.$.qty": qty } }
+
+  return collection.findOneAndUpdate(query, updateDoc, { new: true });
+};

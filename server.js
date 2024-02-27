@@ -39,6 +39,8 @@ import cartRouter from "./src/routers/cartRouter.js";
 app.use("/api/v1/cart", cartRouter);
 import stripeRouter from "./src/routers/stripeRouter.js";
 app.use("/api/v1/payments", stripeRouter);
+import orderRouter from "./src/routers/orderRouter.js";
+app.use("/api/v1/orders", orderRouter);
 
 // basic setup
 app.get("/", (req, res, next) => {

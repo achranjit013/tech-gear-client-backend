@@ -14,7 +14,7 @@ export const getAllCartByUserId = (userId) => {
     updatedAt: 0,
     __v: 0,
   };
-  return CartSchema.find({ userId }, projection);
+  return CartSchema.find({ userId, status: "active" }, projection);
 };
 
 // read cart by userId, productId and size
@@ -27,11 +27,6 @@ export const getACartByUserIdAndProductIdAndSize = (filter) => {
 // filter and data are objects
 export const updateACartById = (filter, data) => {
   return CartSchema.findOneAndUpdate(filter, data, { new: true });
-};
-
-// filter and data are objects
-export const updateACartByUserIdAndProductIdAndSize = (filter, data) => {
-  return CartSchema.findOneAndUpdate(filter, data);
 };
 
 // delete cart

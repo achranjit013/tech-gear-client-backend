@@ -1,12 +1,11 @@
 import express from "express";
 import Stripe from "stripe";
+import { userAuth } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/create-payment-intent", async (req, res, next) => {
+router.post("/create-payment-intent", userAuth, async (req, res, next) => {
   try {
-    console.log("i am in stripe router");
-    console.log(req.body);
     const { amount, currency, paymentMethodType } = req.body;
 
     // use stripe sdk to config with private key
@@ -18,8 +17,6 @@ router.post("/create-payment-intent", async (req, res, next) => {
       currency,
       payment_method_types: [paymentMethodType],
     });
-
-    console.log(paymentIntent);
 
     // return intent id
     res.json({
