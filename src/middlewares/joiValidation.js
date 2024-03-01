@@ -13,8 +13,10 @@ const EMAILREQ = EMAIL.required();
 const CARTSREQ = Joi.array().items(
   Joi.object().keys({
     cartId: SHORTSTRREQ,
+    productId: SHORTSTRREQ,
     totalPrice: SHORTNUMREQ,
     productName: SHORTSTRREQ,
+    productSlug: SHORTSTRREQ,
     orderedQty: SHORTNUMREQ,
     orderedSize: SHORTSTRREQ,
     thumbnail: LONGSTRREQ,
@@ -41,6 +43,7 @@ const joiValidator = ({ schema, req, res, next }) => {
   }
 };
 
+// login
 export const loginValidation = async (req, res, next) => {
   const schema = Joi.object({
     email: EMAILREQ,
@@ -50,6 +53,7 @@ export const loginValidation = async (req, res, next) => {
   joiValidator({ schema, req, res, next });
 };
 
+// add new cart
 export const addNewCartValidation = (req, res, next) => {
   const { _id } = req.userInfo;
   req.body.userId = _id.toString();
@@ -65,6 +69,7 @@ export const addNewCartValidation = (req, res, next) => {
   joiValidator({ schema, req, res, next });
 };
 
+// update cart
 export const updateCartValidation = (req, res, next) => {
   const schema = Joi.object({
     _id: SHORTNUMREQ,
@@ -75,9 +80,11 @@ export const updateCartValidation = (req, res, next) => {
   joiValidator({ schema, req, res, next });
 };
 
+// add new order
 export const addNewOrderValidation = (req, res, next) => {
   const { _id } = req.userInfo;
   req.body.userId = _id.toString();
+
   const schema = Joi.object({
     email: EMAILREQ,
     name: SHORTSTRREQ,
@@ -97,6 +104,7 @@ export const addNewOrderValidation = (req, res, next) => {
   joiValidator({ schema, req, res, next });
 };
 
+// update product qty
 export const updateProductQtyValidation = (req, res, next) => {
   const { variants, ...rest } = req.body;
   req.body = rest;
@@ -107,6 +115,25 @@ export const updateProductQtyValidation = (req, res, next) => {
   const schema = Joi.object({
     slug: SHORTSTRREQ,
     variants: VARIANTSREQ,
+  });
+
+  joiValidator({ schema, req, res, next });
+};
+
+// review
+export const addNewReviewValidation = (req, res, next) => {
+  const { _id } = req.userInfo;
+  req.body.userId = _id.toString();
+  const schema = Joi.object({
+    _id: Joi.string().optional(),
+    status: Joi.string().optional(),
+    title: SHORTSTRREQ,
+    productId: SHORTSTRREQ,
+    userId: SHORTSTRREQ,
+    productName: SHORTSTRREQ,
+    productSlug: SHORTSTRREQ,
+    ratings: SHORTNUMREQ,
+    feedback: LONGSTRREQ,
   });
 
   joiValidator({ schema, req, res, next });

@@ -76,8 +76,9 @@ router.post("/", userAuth, addNewOrderValidation, async (req, res, next) => {
 router.get("/", userAuth, async (req, res, next) => {
   try {
     const { _id } = req.userInfo;
+    const { date, limit, skip, text } = req.query;
 
-    const findResult = await getAllOrdersByUserId(_id);
+    const findResult = await getAllOrdersByUserId(_id, date, limit, skip, text);
 
     responder.SUCESS({
       res,

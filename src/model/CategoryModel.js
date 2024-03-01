@@ -19,7 +19,7 @@ export const getACategoryById = (_id) => {
 };
 
 export const getLatestArrivalCategories = () => {
-  // optional params, only gets latest 12
+  // optional params, only gets latest 4
   const options = {
     sort: { createdAt: -1 },
     limit: 4,

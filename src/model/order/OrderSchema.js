@@ -46,11 +46,20 @@ const orderSchema = new mongoose.Schema(
           ref: "Cart",
           required: true,
         },
+        productId: {
+          type: mongoose.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
         totalPrice: {
           type: Number,
           required: true,
         },
         productName: {
+          type: String,
+          required: true,
+        },
+        productSlug: {
           type: String,
           required: true,
         },
@@ -66,6 +75,11 @@ const orderSchema = new mongoose.Schema(
           type: String,
           required: true,
         },
+        // reviewGiven: {
+        //   type: mongoose.Types.ObjectId,
+        //   ref: "Review",
+        //   default: null,
+        // },
       },
     ],
     amount: {

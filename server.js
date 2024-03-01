@@ -41,6 +41,8 @@ import stripeRouter from "./src/routers/stripeRouter.js";
 app.use("/api/v1/payments", stripeRouter);
 import orderRouter from "./src/routers/orderRouter.js";
 app.use("/api/v1/orders", orderRouter);
+import reviewRouter from "./src/routers/reviewRouter.js";
+app.use("/api/v1/reviews", reviewRouter);
 
 // basic setup
 app.get("/", (req, res, next) => {
