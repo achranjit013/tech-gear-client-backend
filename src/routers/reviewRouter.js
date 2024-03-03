@@ -1,7 +1,6 @@
 import express from "express";
 import {
   createReview,
-  getAReview,
   getAllReviews,
   updateReview,
 } from "../model/review/ReviewModel.js";
@@ -32,7 +31,7 @@ router.post("/", userAuth, addNewReviewValidation, async (req, res, next) => {
   }
 });
 
-// post review
+// put review
 router.put("/", userAuth, addNewReviewValidation, async (req, res, next) => {
   try {
     const { _id, ...rest } = req.body;
@@ -55,11 +54,21 @@ router.put("/", userAuth, addNewReviewValidation, async (req, res, next) => {
   }
 });
 
-router.get("/", userAuth, async (req, res, next) => {
+router.get("/:someId?", async (req, res, next) => {
   try {
-    const { _id } = req.userInfo;
+    const { someId } = req.params;
 
-    const findResult = await getAllReviews(_id);
+    // Determine the condition based on the presence of someId
+    let condition = { status: "active" };
+    if (someId) {
+      if (someId.startsWith("user")) {
+        condition = { userId: someId.substring(4) };
+      } else if (someId.startsWith("product")) {
+        condition = { ...condition, productId: someId.substring(7) };
+      }
+    }
+
+    const findResult = await getAllReviews(condition);
 
     responder.SUCESS({
       res,

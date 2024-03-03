@@ -11,8 +11,8 @@ export const getAReview = (userId, productId) => {
 };
 
 // read
-export const getAllReviews = (userId) => {
-  return ReviewSchema.find({ userId });
+export const getAllReviews = (condition) => {
+  return ReviewSchema.find(condition);
 };
 
 // update
