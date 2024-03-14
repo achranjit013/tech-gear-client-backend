@@ -3,6 +3,7 @@ import {
   getAProductBySlug,
   getLatestArrivalProducts,
   getProductBySlugAndSize,
+  getProductsByIds,
   updateAProductQtyBySlugAndSize,
 } from "../model/ProductModel.js";
 import { responder } from "../middlewares/response.js";
@@ -12,21 +13,21 @@ import { updateProductQtyValidation } from "../middlewares/joiValidation.js";
 const router = express.Router();
 
 // get products for cart by their id / slug and size
-router.get("/cart-item/:slug&:size", async (req, res, next) => {
-  try {
-    const { slug, size } = req.params;
+// router.get("/cart-item/:slug&:size", async (req, res, next) => {
+//   try {
+//     const { slug, size } = req.params;
 
-    const findResult = await getProductBySlugAndSize(slug, size);
+//     const findResult = await getProductBySlugAndSize(slug, size);
 
-    responder.SUCESS({
-      res,
-      message: "successfully retrieved products",
-      findResult,
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+//     responder.SUCESS({
+//       res,
+//       message: "successfully retrieved products",
+//       findResult,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 // get all products or one selected product
 router.get("/:slug?/:size?", async (req, res, next) => {
@@ -34,12 +35,15 @@ router.get("/:slug?/:size?", async (req, res, next) => {
     // slug
     const { slug, size } = req.params;
 
-    const findResult =
-      slug && size
-        ? await getProductBySlugAndSize(slug, size)
-        : slug
-        ? await getAProductBySlug(slug)
-        : await getLatestArrivalProducts();
+    const { ids } = req.query;
+
+    const findResult = ids?.split(",").length
+      ? await getProductsByIds(ids.split(","))
+      : slug && size
+      ? await getProductBySlugAndSize(slug, size)
+      : slug
+      ? await getAProductBySlug(slug)
+      : await getLatestArrivalProducts();
     responder.SUCESS({
       res,
       message: "successfully retrieved products",

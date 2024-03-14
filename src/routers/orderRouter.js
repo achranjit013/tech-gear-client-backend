@@ -11,7 +11,7 @@ import { sendOrderVerificationEmailNotification } from "../utils/nodemailer.js";
 const router = express.Router();
 
 // post cart
-router.post("/", userAuth, addNewOrderValidation, async (req, res, next) => {
+router.post("/", addNewOrderValidation, async (req, res, next) => {
   try {
     const findResult = await createOrder(req.body);
 
@@ -56,24 +56,13 @@ router.post("/", userAuth, addNewOrderValidation, async (req, res, next) => {
         message: "Sorry, couldn't place your order. Please try again later!",
       });
     }
-
-    // findResult?._id
-    //    responder.SUCESS({
-    //       res,
-    //       message:
-    //         "Your order has been successfully placed. While you eagerly await the arrival of your order, please feel free to explore our wide range of products. Happy shopping!",
-    //     })
-    //   : responder.ERROR({
-    //       res,
-    //       message: "Sorry, couldn't place your order. Please try again later!",
-    //     });
   } catch (error) {
     next(error);
   }
 });
 
 // get cart
-router.get("/", userAuth, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const { _id } = req.userInfo;
     const { date, limit, skip, text } = req.query;

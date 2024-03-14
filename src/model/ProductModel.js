@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { connectToDatabase } from "../config/databaseConnection.js";
 
 const uri = process.env.MONGO_URL;
@@ -15,6 +16,13 @@ let collection;
 
 export const getAProductBySlug = (slug) => {
   return collection.findOne({ slug });
+};
+
+// for favorites
+export const getProductsByIds = (ids) => {
+  const objectIds = ids.map((id) => new ObjectId(id));
+
+  return collection.find({ _id: { $in: objectIds } }).toArray();
 };
 
 export const getProductBySlugAndSize = (slug, size) => {

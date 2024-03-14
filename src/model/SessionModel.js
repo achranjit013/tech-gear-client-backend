@@ -20,3 +20,7 @@ export const createNewSession = (sessionObj) => {
 export const getSession = (sessionObj) => {
   return collection.findOne(sessionObj);
 };
+
+export const deleteSession = (filter) => {
+  return collection.deleteOne(filter);
+};

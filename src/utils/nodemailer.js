@@ -19,6 +19,7 @@ const emailSender = async (obj) => {
   }
 };
 
+// order verification email sent to user
 export const sendOrderVerificationEmailNotification = ({
   toEmail,
   name,
@@ -29,7 +30,7 @@ export const sendOrderVerificationEmailNotification = ({
   amount,
 }) => {
   const body = {
-    from: `Tech Gear 👻 <${process.env.SMPT_USER}>`, // sender address
+    from: `Variété Vortéx 👻 <${process.env.SMPT_USER}>`, // sender address
     to: toEmail.map((email) => email), // list of receivers
     subject: "Your order has been successfully placed!", // Subject line
     text: `Hello ${
@@ -47,7 +48,7 @@ export const sendOrderVerificationEmailNotification = ({
 
     Total: ${amount}
     
-    Your order will be shipped to following address:\n${shippingStreet}, ${shippingState}, ${shippingZip}\n\nIf the address is incorrect, please contact us immediately. \n\n Happy shopping! 🛍️\n\n---------\nRegards,\nTech Gear`, // plain text body
+    Your order will be shipped to following address:\n${shippingStreet}, ${shippingState}, ${shippingZip}\n\nIf the address is incorrect, please contact us immediately. \n\n Happy shopping! 🛍️\n\n---------\nRegards,\nVariété Vortéx`, // plain text body
     html: `<p>Hello ${toEmail.length === 1 ? name : "all"},</p>
     
     <p>Your order has been successfully placed. While you eagerly await the arrival of your order, please feel free to explore our wide range of products by visiting our page.</p>
@@ -85,7 +86,86 @@ export const sendOrderVerificationEmailNotification = ({
     <p>
       Regards,
       <br/>
-      Tech Gear
+      Variété Vortéx
+      <br/>
+    </p>`, // html body
+  };
+
+  emailSender(body);
+};
+
+// email verification link to user after they create their account
+export const sendEmailVerificationLinkTemplate = ({ email, fname, url }) => {
+  const body = {
+    from: `"Variété Vortéx 👻" <${process.env.SMPT_USER}>`, // sender address
+    to: email, // list of receivers
+    subject: "Follow the instruction to verify your account!", // Subject line
+    text: `Hello ${fname}, please follow the link to verify your account ${url}\n\n Regards,\nVariété Vortéx`, // plain text body
+    html: `<p>Hello ${fname}</p>
+
+    <br/>
+    <br/>
+    
+    <p>Thank you for creating account with us. Click the button to verify your account!</p>
+    
+    <p>
+      <a href="${url}">
+      <button style=background: green; padding:9px;color:"white"; fontWeight:bold;>Verify</button>
+      </a>
+    </p>
+    
+    <br/>
+    <br/>
+    <br/>
+
+    <p>If the button doesn't work, please copy the link and paste it to your browser "${url}"</p>
+
+    <br/>
+    <br/>
+    <br/>
+    
+    ---------
+    
+    <p>
+      Regards,
+      <br/>
+      Variété Vortéx
+      <br/>
+    </p>`, // html body
+  };
+
+  emailSender(body);
+};
+
+export const sendEmailVerifiedNotification = ({ email, fname }) => {
+  const body = {
+    from: `"Variété Vortéx 👻" <${process.env.SMPT_USER}>`, // sender address
+    to: email, // list of receivers
+    subject: "your email has been verified!", // Subject line
+    text: `Hello ${fname},\n\n Thank you for creating account with us. Your account has been verified. You may login now.\n\n Regards,\nVariété Vortéx`, // plain text body
+    html: `<p>Hello ${fname},</p>
+
+    <br/>
+    <br/>
+    
+    <p>Thank you for creating account with us. Your account has been verified.</p>
+    
+    <br/>
+    <br/>
+    <br/>
+
+    <p>You may login now!"</p>
+
+    <br/>
+    <br/>
+    <br/>
+    
+    ---------
+    
+    <p>
+      Regards,
+      <br/>
+      Variété Vortéx
       <br/>
     </p>`, // html body
   };

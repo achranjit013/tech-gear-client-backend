@@ -4,7 +4,7 @@ import { userAuth } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/create-payment-intent", userAuth, async (req, res, next) => {
+router.post("/create-payment-intent", async (req, res, next) => {
   try {
     const { amount, currency, paymentMethodType } = req.body;
 

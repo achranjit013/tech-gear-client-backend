@@ -11,12 +11,11 @@ import {
   updateACartById,
 } from "../model/cart/CartModel.js";
 import { responder } from "../middlewares/response.js";
-import { userAuth } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
 // post cart
-router.post("/", userAuth, addNewCartValidation, async (req, res, next) => {
+router.post("/", addNewCartValidation, async (req, res, next) => {
   try {
     const { productId, size, userId, qty } = req.body;
     const itemExist = await getACartByUserIdAndProductIdAndSize({
@@ -52,7 +51,7 @@ router.post("/", userAuth, addNewCartValidation, async (req, res, next) => {
 });
 
 // get cart
-router.get("/", userAuth, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const { _id } = req.userInfo;
 
@@ -68,7 +67,7 @@ router.get("/", userAuth, async (req, res, next) => {
 });
 
 // update cart
-router.patch("/", userAuth, updateCartValidation, async (req, res, next) => {
+router.patch("/", updateCartValidation, async (req, res, next) => {
   try {
     const { _id, ...rest } = req.body;
 
@@ -90,7 +89,7 @@ router.patch("/", userAuth, updateCartValidation, async (req, res, next) => {
 });
 
 // delete cart
-router.delete("/", userAuth, async (req, res, next) => {
+router.delete("/", async (req, res, next) => {
   try {
     const { _id } = req.body;
     const findResult = await deleteCartById(_id);

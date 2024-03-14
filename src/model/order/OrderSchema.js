@@ -2,11 +2,25 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
+    status: {
+      type: String,
+      default: "unfulfilled",
+    },
+    trackingNumber: [
+      {
+        type: String,
+        default: null,
+      },
+    ],
     email: {
       type: String,
       required: true,
     },
     name: {
+      type: String,
+      required: true,
+    },
+    shipping: {
       type: String,
       required: true,
     },
@@ -32,6 +46,10 @@ const orderSchema = new mongoose.Schema(
     },
     billingZip: {
       type: String,
+      required: true,
+    },
+    billingSameAsShipping: {
+      type: Boolean,
       required: true,
     },
     userId: {
@@ -67,6 +85,14 @@ const orderSchema = new mongoose.Schema(
           type: Number,
           required: true,
         },
+        dispatchedQty: {
+          type: Number,
+          default: 0,
+        },
+        cartRefund: {
+          type: Number,
+          default: 0,
+        },
         orderedSize: {
           type: String,
           required: true,
@@ -75,16 +101,15 @@ const orderSchema = new mongoose.Schema(
           type: String,
           required: true,
         },
-        // reviewGiven: {
-        //   type: mongoose.Types.ObjectId,
-        //   ref: "Review",
-        //   default: null,
-        // },
       },
     ],
     amount: {
       type: Number,
       required: true,
+    },
+    totalRefund: {
+      type: Number,
+      default: 0,
     },
     paymentMethod: {
       type: String,
