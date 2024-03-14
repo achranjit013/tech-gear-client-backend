@@ -170,6 +170,22 @@ router.post("/login", loginValidation, async (req, res, next) => {
   }
 });
 
+// logout
+router.post("/logout", async (req, res, next) => {
+  try {
+    const { accessJWT, _id } = req.body;
+    accessJWT && (await deleteSession({ token: accessJWT }));
+    await updateUser({ _id }, { refreshJWT: "" });
+
+    responder.SUCESS({
+      res,
+      message: "sucess logout",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 // get user info
 router.get("/", userAuth, async (req, res, next) => {
   try {
