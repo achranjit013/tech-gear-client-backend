@@ -7,38 +7,44 @@ import {
   deleteFavouriteById,
   getAllFavouriteByUserId,
 } from "../model/favourite/FavouriteModel.js";
+import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
 // post cart
 router.post("/", addNewFavouriteValidation, async (req, res, next) => {
   try {
+    const { ids } = req.body; // array of objects with property productId (only present if user have favourite items in local storage)
+
     let findResult;
-    const { ids } = req.body;
-    let create = false;
+    let createFav = false;
+
+    // "if" block is only executed when user logs in and has favourite items in their local storage
+    // "else" block is executed every time user clicks the favourite button
     if (ids?.length) {
       const userFavs = await getAllFavouriteByUserId(req.body.userId);
 
+      // get unique array of objects (productId, userId) out of ids, that are not in favourites table
       const uniqueIds = ids
         .filter(
-          (item) => !userFavs.some((obj) => obj.productId === item.productId)
+          (item) =>
+            !userFavs.some((obj) => obj.productId.toString() === item.productId)
         )
-        .map((item) => ({ ...item, userId: req.body.userId }));
+        .map((prod) => ({ ...prod, userId: req.body.userId }));
 
+      // create data in db table
       findResult = await createManyFavourite(uniqueIds);
 
-      if (findResult.length > 0) {
-        create = true;
-      }
+      createFav = true; //return success
     } else {
       findResult = await createFavourite(req.body);
 
       if (findResult?._id) {
-        create = true;
+        createFav = true;
       }
     }
 
-    create
+    createFav
       ? responder.SUCESS({
           res,
           message: "The product has been successfully added to your favourite.",
