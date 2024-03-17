@@ -1,20 +1,20 @@
 import express from "express";
-import {
-  getACategoryById,
-  getLatestArrivalCategories,
-} from "../model/CategoryModel.js";
+import { getACategory, getAllCategories } from "../model/CategoryModel.js";
 import { responder } from "../middlewares/response.js";
+import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
-router.get("/:_id?", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     // category id
-    const { _id } = req.params;
+    const { _id, slug } = req.query;
 
-    const findResult = _id
-      ? await getACategoryById(_id)
-      : await getLatestArrivalCategories();
+    const filter = _id ? { _id: new ObjectId(_id) } : slug ? { slug } : null;
+
+    const findResult = filter
+      ? await getACategory(filter)
+      : await getAllCategories();
 
     responder.SUCESS({
       res,

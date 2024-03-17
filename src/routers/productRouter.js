@@ -1,14 +1,14 @@
 import express from "express";
 import {
   getAProductBySlug,
-  getLatestArrivalProducts,
+  getFeaturedProducts,
   getProductBySlugAndSize,
-  getProductsByIds,
   updateAProductQtyBySlugAndSize,
 } from "../model/ProductModel.js";
 import { responder } from "../middlewares/response.js";
 import { userAuth } from "../middlewares/authMiddleware.js";
 import { updateProductQtyValidation } from "../middlewares/joiValidation.js";
+import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
@@ -30,20 +30,28 @@ const router = express.Router();
 // });
 
 // get all products or one selected product
-router.get("/:slug?/:size?", async (req, res, next) => {
+// router.get("/:slug?/:size?", async (req, res, next) => {
+router.get("/:slug?", async (req, res, next) => {
   try {
     // slug
-    const { slug, size } = req.params;
+    // const { slug } = req.params;
 
-    const { ids } = req.query;
+    const { ids, slug, size, categoryId } = req.query;
 
-    const findResult = ids?.split(",").length
-      ? await getProductsByIds(ids.split(","))
-      : slug && size
-      ? await getProductBySlugAndSize(slug, size)
-      : slug
-      ? await getAProductBySlug(slug)
-      : await getLatestArrivalProducts();
+    const objectIds = ids?.split(",").map((id) => new ObjectId(id));
+    const filter = ids
+      ? { _id: { $in: objectIds } }
+      : categoryId
+      ? { categoryId: new ObjectId(categoryId) }
+      : {};
+
+    const findResult =
+      slug && size
+        ? await getProductBySlugAndSize(slug, size)
+        : req.params.slug
+        ? await getAProductBySlug(req.params.slug)
+        : await getFeaturedProducts(filter);
+
     responder.SUCESS({
       res,
       message: "successfully retrieved products",

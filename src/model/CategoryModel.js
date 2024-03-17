@@ -14,16 +14,15 @@ let collection;
   }
 })();
 
-export const getACategoryById = (_id) => {
-  return collection.findOne({ _id: new ObjectId(_id) });
+export const getACategory = (filter) => {
+  return collection.findOne(filter);
 };
 
-export const getLatestArrivalCategories = () => {
+export const getAllCategories = () => {
   // optional params, only gets latest 4
   const options = {
     sort: { createdAt: -1 },
-    limit: 4,
   };
 
-  return collection.find({}, options).toArray();
+  return collection.find({ status: "active" }, options).toArray();
 };

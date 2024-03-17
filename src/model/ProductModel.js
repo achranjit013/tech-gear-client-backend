@@ -18,13 +18,6 @@ export const getAProductBySlug = (slug) => {
   return collection.findOne({ slug });
 };
 
-// for favorites
-export const getProductsByIds = (ids) => {
-  const objectIds = ids.map((id) => new ObjectId(id));
-
-  return collection.find({ _id: { $in: objectIds } }).toArray();
-};
-
 export const getProductBySlugAndSize = (slug, size) => {
   const query = {
     slug,
@@ -51,14 +44,19 @@ export const getProductBySlugAndSize = (slug, size) => {
   return collection.findOne(query, options);
 };
 
-export const getLatestArrivalProducts = () => {
-  // optional params, only gets latest 12
+export const getFeaturedProducts = (filter) => {
+  // default options
   const options = {
     sort: { createdAt: -1 },
-    limit: 12,
   };
 
-  return collection.find({}, options).toArray();
+  // If the filter is an empty object, add the limit option
+  // this is for home page, latest arrivals
+  if (Object.keys(filter).length === 0) {
+    options.limit = 12;
+  }
+
+  return collection.find(filter, options).toArray();
 };
 
 export const updateAProductQtyBySlugAndSize = (slug, size, qty) => {
