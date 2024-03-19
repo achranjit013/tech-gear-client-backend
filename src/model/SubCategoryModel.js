@@ -14,16 +14,15 @@ let collection;
   }
 })();
 
-export const getASubCategoryById = (_id) => {
-  return collection.findOne({ _id: new ObjectId(_id) });
+export const getASubCategory = (filter) => {
+  return collection.findOne(filter);
 };
 
-export const getLatestArrivalSubCategories = () => {
-  // optional params, only gets latest 4
+export const getFilteredSubCategories = (filter) => {
+  // optional params
   const options = {
     sort: { createdAt: -1 },
-    limit: 4,
   };
 
-  return collection.find({}, options).toArray();
+  return collection.find(filter, options).toArray();
 };

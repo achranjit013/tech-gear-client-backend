@@ -33,16 +33,15 @@ const router = express.Router();
 // router.get("/:slug?/:size?", async (req, res, next) => {
 router.get("/:slug?", async (req, res, next) => {
   try {
-    // slug
-    // const { slug } = req.params;
-
-    const { ids, slug, size, categoryId } = req.query;
+    const { ids, slug, size, categoryId, subCategoryId } = req.query;
 
     const objectIds = ids?.split(",").map((id) => new ObjectId(id));
     const filter = ids
       ? { _id: { $in: objectIds } }
       : categoryId
       ? { categoryId: new ObjectId(categoryId) }
+      : subCategoryId
+      ? { subCategoryId: new ObjectId(subCategoryId) }
       : {};
 
     const findResult =

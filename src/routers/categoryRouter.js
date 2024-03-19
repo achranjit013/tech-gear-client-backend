@@ -10,11 +10,16 @@ router.get("/", async (req, res, next) => {
     // category id
     const { _id, slug } = req.query;
 
-    const filter = _id ? { _id: new ObjectId(_id) } : slug ? { slug } : null;
+    let filter = { status: "active" };
 
-    const findResult = filter
-      ? await getACategory(filter)
-      : await getAllCategories();
+    filter = _id
+      ? { _id: new ObjectId(_id), ...filter }
+      : slug
+      ? { slug, ...filter }
+      : filter;
+
+    const findResult =
+      _id || slug ? await getACategory(filter) : await getAllCategories(filter);
 
     responder.SUCESS({
       res,

@@ -1,20 +1,30 @@
 import express from "express";
 import { responder } from "../middlewares/response.js";
 import {
-  getASubCategoryById,
-  getLatestArrivalSubCategories,
+  getASubCategory,
+  getFilteredSubCategories,
 } from "../model/SubCategoryModel.js";
+import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
-router.get("/:_id?", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
-    // subcategory id
-    const { _id } = req.params;
+    const { _id, categoryId, slug } = req.query;
 
-    const findResult = _id
-      ? await getASubCategoryById(_id)
-      : await getLatestArrivalSubCategories();
+    // const objectIds = ids?.split(",").map((id) => new ObjectId(id));
+    const filter = categoryId
+      ? { categoryId: new ObjectId(categoryId) }
+      : slug
+      ? { slug }
+      : _id
+      ? { _id: new ObjectId(_id) }
+      : {};
+
+    const findResult =
+      _id || slug
+        ? await getASubCategory(filter)
+        : await getFilteredSubCategories(filter);
 
     responder.SUCESS({
       res,
