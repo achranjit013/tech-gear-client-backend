@@ -163,6 +163,15 @@ export const updateProductQtyValidation = (req, res, next) => {
   joiValidator({ schema, req, res, next });
 };
 
+// subscription
+export const addNewSubscriptionValidation = (req, res, next) => {
+  const schema = Joi.object({
+    email: EMAILREQ,
+  });
+
+  joiValidator({ schema, req, res, next });
+};
+
 // review
 export const addNewReviewValidation = (req, res, next) => {
   const { _id } = req.userInfo;

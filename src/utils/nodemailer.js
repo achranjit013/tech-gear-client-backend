@@ -172,3 +172,80 @@ export const sendEmailVerifiedNotification = ({ email, fname }) => {
 
   emailSender(body);
 };
+
+// while subscribing
+export const sendSubscriptionVerifiedNotification = ({ email, url }) => {
+  const body = {
+    from: `"Variété Vortéx 👻" <${process.env.SMPT_USER}>`, // sender address
+    to: email, // list of receivers
+    subject: "Welcome to Our Newsletter Community!", // Subject line
+    text: `Dear ${email},\n\nWelcome aboard! 🎉\n\nThank you for subscribing to our newsletter. We're thrilled to have you join our community of engaged readers. You're now connected to a wealth of valuable insights, weekly articles, and exciting product updates.\n\nAt Variété Vortéx, we are dedicated to delivering excellence in all aspects of our services. Rest assured, we value your time and privacy, which is why you'll only receive relevant and meaningful content from us. We promise never to clutter your inbox with spam emails.\n\nStay tuned for our upcoming newsletters, packed with informative articles, insightful tips, and exciting announcements. If you ever have any questions or feedback, please feel free to reach out to us. Your input is invaluable to us as we strive to continuously improve and tailor our content to meet your needs.\n\nOnce again, welcome to our newsletter community! We're delighted to have you on this journey with us.\n\nYou can unsubscribe anytime by following the link ${url}\n\n---------\nRegards,\nVariété Vortéx`, // plain text body
+    html: `<p>Dear ${email},</p>
+    
+    <p>Welcome aboard! 🎉</p>
+
+    <p>Thank you for subscribing to our newsletter. We're thrilled to have you join our community of engaged readers. You're now connected to a wealth of valuable insights, weekly articles, and exciting product updates.</p>
+    
+    <p>At <b>Variété Vortéx</b>, we are dedicated to delivering excellence in all aspects of our services. Rest assured, we value your time and privacy, which is why you'll only receive relevant and meaningful content from us. We promise never to clutter your inbox with spam emails.</p>
+    
+    <p>As a subscriber, you're at the forefront of everything we do. Whether you're seeking industry trends, expert advice, or exclusive offers, we're here to provide you with valuable resources and enriching experiences.</p>
+    
+    <p>Stay tuned for our upcoming newsletters, packed with informative articles, insightful tips, and exciting announcements. If you ever have any questions or feedback, please feel free to reach out to us. Your input is invaluable to us as we strive to continuously improve and tailor our content to meet your needs.</p>
+    
+    <p>Once again, welcome to our newsletter community! We're delighted to have you on this journey with us.</p>
+
+    <p>You can unsubscribe anytime by clicking the button below.</p>
+    <p>
+      <a href="${url}">
+      <button style=background: green; padding:9px;color:"white"; fontWeight:bold;>Unsubscribe</button>
+      </a>
+    </p>
+
+    <p>If the button doesn't work, please copy the link and paste it to your browser: ${url}</p>
+
+    <br/>
+    <br/>
+    
+    ---------
+    
+    <p>
+      Regards,
+      <br/>
+      Variété Vortéx
+      <br/>
+    </p>`, // html body
+  };
+
+  emailSender(body);
+};
+
+// while unsubscribing
+export const sendUnsubscriptionVerifiedNotification = ({ email }) => {
+  const body = {
+    from: `"Variété Vortéx 👻" <${process.env.SMPT_USER}>`, // sender address
+    to: email, // list of receivers
+    subject: "We are sorry to See You Go!", // Subject line
+    text: `Dear ${email},\n\nThis email is to confirm that your unsubscription request has been successfully processed. You will no longer receive emails from us.\n\nWe're sorry to see you go, but we understand that preferences change. If you ever wish to resubscribe or have any feedback for us, please don't hesitate to contact us.\n\nThank you for being a part of our community, and we wish you all the best in your future endeavors.\n\n---------\nRegards,\nVariété Vortéx`, // plain text body
+    html: `<p>Dear ${email},</p>
+    
+    <p>This email is to confirm that your unsubscription request has been successfully processed. You will no longer receive emails from us.</p>
+
+    <p>We're sorry to see you go, but we understand that preferences change. If you ever wish to resubscribe or have any feedback for us, please don't hesitate to contact us.</p>
+
+    <p>Thank you for being a part of our community, and we wish you all the best in your future endeavors.</p>
+
+    <br/>
+    <br/>
+    
+    ---------
+    
+    <p>
+      Regards,
+      <br/>
+      Variété Vortéx
+      <br/>
+    </p>`, // html body
+  };
+
+  emailSender(body);
+};

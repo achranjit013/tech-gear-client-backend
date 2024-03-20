@@ -48,6 +48,8 @@ import orderRouter from "./src/routers/orderRouter.js";
 app.use("/api/v1/orders", userAuth, orderRouter);
 import reviewRouter from "./src/routers/reviewRouter.js";
 app.use("/api/v1/reviews", reviewRouter);
+import subscriptionRouter from "./src/routers/subscriptionRouter.js";
+app.use("/api/v1/subscriptions", subscriptionRouter);
 
 // basic setup
 app.get("/", (req, res, next) => {
