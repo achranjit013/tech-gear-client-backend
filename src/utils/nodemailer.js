@@ -30,7 +30,7 @@ export const sendOrderVerificationEmailNotification = ({
   amount,
 }) => {
   const body = {
-    from: `Variété Vortéx 👻 <${process.env.SMPT_USER}>`, // sender address
+    from: `MarketBay 👻 <${process.env.SMPT_USER}>`, // sender address
     to: toEmail.map((email) => email), // list of receivers
     subject: "Your order has been successfully placed!", // Subject line
     text: `Hello ${
@@ -48,7 +48,7 @@ export const sendOrderVerificationEmailNotification = ({
 
     Total: ${amount}
     
-    Your order will be shipped to following address:\n${shippingStreet}, ${shippingState}, ${shippingZip}\n\nIf the address is incorrect, please contact us immediately. \n\n Happy shopping! 🛍️\n\n---------\nRegards,\nVariété Vortéx`, // plain text body
+    Your order will be shipped to following address:\n${shippingStreet}, ${shippingState}, ${shippingZip}\n\nIf the address is incorrect, please contact us immediately. \n\n Happy shopping! 🛍️\n\n---------\nRegards,\nMarketBay`, // plain text body
     html: `<p>Hello ${toEmail.length === 1 ? name : "all"},</p>
     
     <p>Your order has been successfully placed. While you eagerly await the arrival of your order, please feel free to explore our wide range of products by visiting our page.</p>
@@ -86,7 +86,7 @@ export const sendOrderVerificationEmailNotification = ({
     <p>
       Regards,
       <br/>
-      Variété Vortéx
+      MarketBay
       <br/>
     </p>`, // html body
   };
@@ -97,10 +97,10 @@ export const sendOrderVerificationEmailNotification = ({
 // email verification link to user after they create their account
 export const sendEmailVerificationLinkTemplate = ({ email, fname, url }) => {
   const body = {
-    from: `"Variété Vortéx 👻" <${process.env.SMPT_USER}>`, // sender address
+    from: `"MarketBay 👻" <${process.env.SMPT_USER}>`, // sender address
     to: email, // list of receivers
     subject: "Follow the instruction to verify your account!", // Subject line
-    text: `Hello ${fname}, please follow the link to verify your account ${url}\n\n Regards,\nVariété Vortéx`, // plain text body
+    text: `Hello ${fname}, please follow the link to verify your account ${url}\n\n Regards,\nMarketBay`, // plain text body
     html: `<p>Hello ${fname}</p>
 
     <br/>
@@ -129,7 +129,7 @@ export const sendEmailVerificationLinkTemplate = ({ email, fname, url }) => {
     <p>
       Regards,
       <br/>
-      Variété Vortéx
+      MarketBay
       <br/>
     </p>`, // html body
   };
@@ -139,10 +139,10 @@ export const sendEmailVerificationLinkTemplate = ({ email, fname, url }) => {
 
 export const sendEmailVerifiedNotification = ({ email, fname }) => {
   const body = {
-    from: `"Variété Vortéx 👻" <${process.env.SMPT_USER}>`, // sender address
+    from: `"MarketBay 👻" <${process.env.SMPT_USER}>`, // sender address
     to: email, // list of receivers
     subject: "your email has been verified!", // Subject line
-    text: `Hello ${fname},\n\n Thank you for creating account with us. Your account has been verified. You may login now.\n\n Regards,\nVariété Vortéx`, // plain text body
+    text: `Hello ${fname},\n\n Thank you for creating account with us. Your account has been verified. You may login now.\n\n Regards,\nMarketBay`, // plain text body
     html: `<p>Hello ${fname},</p>
 
     <br/>
@@ -165,7 +165,7 @@ export const sendEmailVerifiedNotification = ({ email, fname }) => {
     <p>
       Regards,
       <br/>
-      Variété Vortéx
+      MarketBay
       <br/>
     </p>`, // html body
   };
@@ -176,17 +176,17 @@ export const sendEmailVerifiedNotification = ({ email, fname }) => {
 // while subscribing
 export const sendSubscriptionVerifiedNotification = ({ email, url }) => {
   const body = {
-    from: `"Variété Vortéx 👻" <${process.env.SMPT_USER}>`, // sender address
+    from: `"MarketBay 👻" <${process.env.SMPT_USER}>`, // sender address
     to: email, // list of receivers
     subject: "Welcome to Our Newsletter Community!", // Subject line
-    text: `Dear ${email},\n\nWelcome aboard! 🎉\n\nThank you for subscribing to our newsletter. We're thrilled to have you join our community of engaged readers. You're now connected to a wealth of valuable insights, weekly articles, and exciting product updates.\n\nAt Variété Vortéx, we are dedicated to delivering excellence in all aspects of our services. Rest assured, we value your time and privacy, which is why you'll only receive relevant and meaningful content from us. We promise never to clutter your inbox with spam emails.\n\nStay tuned for our upcoming newsletters, packed with informative articles, insightful tips, and exciting announcements. If you ever have any questions or feedback, please feel free to reach out to us. Your input is invaluable to us as we strive to continuously improve and tailor our content to meet your needs.\n\nOnce again, welcome to our newsletter community! We're delighted to have you on this journey with us.\n\nYou can unsubscribe anytime by following the link ${url}\n\n---------\nRegards,\nVariété Vortéx`, // plain text body
+    text: `Dear ${email},\n\nWelcome aboard! 🎉\n\nThank you for subscribing to our newsletter. We're thrilled to have you join our community of engaged readers. You're now connected to a wealth of valuable insights, weekly articles, and exciting product updates.\n\nAt MarketBay, we are dedicated to delivering excellence in all aspects of our services. Rest assured, we value your time and privacy, which is why you'll only receive relevant and meaningful content from us. We promise never to clutter your inbox with spam emails.\n\nStay tuned for our upcoming newsletters, packed with informative articles, insightful tips, and exciting announcements. If you ever have any questions or feedback, please feel free to reach out to us. Your input is invaluable to us as we strive to continuously improve and tailor our content to meet your needs.\n\nOnce again, welcome to our newsletter community! We're delighted to have you on this journey with us.\n\nYou can unsubscribe anytime by following the link ${url}\n\n---------\nRegards,\nMarketBay`, // plain text body
     html: `<p>Dear ${email},</p>
     
     <p>Welcome aboard! 🎉</p>
 
     <p>Thank you for subscribing to our newsletter. We're thrilled to have you join our community of engaged readers. You're now connected to a wealth of valuable insights, weekly articles, and exciting product updates.</p>
     
-    <p>At <b>Variété Vortéx</b>, we are dedicated to delivering excellence in all aspects of our services. Rest assured, we value your time and privacy, which is why you'll only receive relevant and meaningful content from us. We promise never to clutter your inbox with spam emails.</p>
+    <p>At <b>MarketBay</b>, we are dedicated to delivering excellence in all aspects of our services. Rest assured, we value your time and privacy, which is why you'll only receive relevant and meaningful content from us. We promise never to clutter your inbox with spam emails.</p>
     
     <p>As a subscriber, you're at the forefront of everything we do. Whether you're seeking industry trends, expert advice, or exclusive offers, we're here to provide you with valuable resources and enriching experiences.</p>
     
@@ -211,7 +211,7 @@ export const sendSubscriptionVerifiedNotification = ({ email, url }) => {
     <p>
       Regards,
       <br/>
-      Variété Vortéx
+      MarketBay
       <br/>
     </p>`, // html body
   };
@@ -222,10 +222,10 @@ export const sendSubscriptionVerifiedNotification = ({ email, url }) => {
 // while unsubscribing
 export const sendUnsubscriptionVerifiedNotification = ({ email }) => {
   const body = {
-    from: `"Variété Vortéx 👻" <${process.env.SMPT_USER}>`, // sender address
+    from: `"MarketBay 👻" <${process.env.SMPT_USER}>`, // sender address
     to: email, // list of receivers
     subject: "We are sorry to See You Go!", // Subject line
-    text: `Dear ${email},\n\nThis email is to confirm that your unsubscription request has been successfully processed. You will no longer receive emails from us.\n\nWe're sorry to see you go, but we understand that preferences change. If you ever wish to resubscribe or have any feedback for us, please don't hesitate to contact us.\n\nThank you for being a part of our community, and we wish you all the best in your future endeavors.\n\n---------\nRegards,\nVariété Vortéx`, // plain text body
+    text: `Dear ${email},\n\nThis email is to confirm that your unsubscription request has been successfully processed. You will no longer receive emails from us.\n\nWe're sorry to see you go, but we understand that preferences change. If you ever wish to resubscribe or have any feedback for us, please don't hesitate to contact us.\n\nThank you for being a part of our community, and we wish you all the best in your future endeavors.\n\n---------\nRegards,\nMarketBay`, // plain text body
     html: `<p>Dear ${email},</p>
     
     <p>This email is to confirm that your unsubscription request has been successfully processed. You will no longer receive emails from us.</p>
@@ -242,7 +242,7 @@ export const sendUnsubscriptionVerifiedNotification = ({ email }) => {
     <p>
       Regards,
       <br/>
-      Variété Vortéx
+      MarketBay
       <br/>
     </p>`, // html body
   };
