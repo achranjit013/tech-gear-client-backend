@@ -2,6 +2,7 @@ import express from "express";
 import { responder } from "../middlewares/response.js";
 import {
   getASubCategory,
+  getAllSubCategories,
   getFilteredSubCategories,
 } from "../model/SubCategoryModel.js";
 import { ObjectId } from "mongodb";
@@ -12,19 +13,20 @@ router.get("/", async (req, res, next) => {
   try {
     const { _id, categoryId, slug } = req.query;
 
-    // const objectIds = ids?.split(",").map((id) => new ObjectId(id));
-    const filter = categoryId
-      ? { categoryId: new ObjectId(categoryId) }
+    let filter = { status: "active" };
+
+    filter = categoryId
+      ? { categoryId: new ObjectId(categoryId), ...filter }
       : slug
-      ? { slug }
+      ? { slug, ...filter }
       : _id
-      ? { _id: new ObjectId(_id) }
-      : {};
+      ? { _id: new ObjectId(_id), ...filter }
+      : filter;
 
     const findResult =
       _id || slug
         ? await getASubCategory(filter)
-        : await getFilteredSubCategories(filter);
+        : await getAllSubCategories(filter);
 
     responder.SUCESS({
       res,

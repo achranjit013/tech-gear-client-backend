@@ -19,7 +19,7 @@ export const getACategory = (filter) => {
 };
 
 export const getAllCategories = () => {
-  // optional params, only gets latest 4
+  // optional params
   const options = {
     sort: { createdAt: -1 },
   };

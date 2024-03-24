@@ -12,25 +12,6 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
-// get products for cart by their id / slug and size
-// router.get("/cart-item/:slug&:size", async (req, res, next) => {
-//   try {
-//     const { slug, size } = req.params;
-
-//     const findResult = await getProductBySlugAndSize(slug, size);
-
-//     responder.SUCESS({
-//       res,
-//       message: "successfully retrieved products",
-//       findResult,
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
-// get all products or one selected product
-// router.get("/:slug?/:size?", async (req, res, next) => {
 router.get("/:slug?", async (req, res, next) => {
   try {
     const { ids, slug, size, categoryId, subCategoryId } = req.query;
@@ -50,6 +31,20 @@ router.get("/:slug?", async (req, res, next) => {
         : req.params.slug
         ? await getAProductBySlug(req.params.slug)
         : await getFeaturedProducts(filter);
+
+    responder.SUCESS({
+      res,
+      message: "successfully retrieved products",
+      findResult,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/all", async (req, res, next) => {
+  try {
+    const findResult = await getFeaturedProducts({ filter: "all" });
 
     responder.SUCESS({
       res,
