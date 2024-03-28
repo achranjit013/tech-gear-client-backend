@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import { connectToDatabase } from "../config/databaseConnection.js";
 
 const uri = process.env.MONGO_URL;

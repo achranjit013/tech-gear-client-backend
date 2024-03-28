@@ -15,11 +15,12 @@ let collection;
 })();
 
 export const getAProductBySlug = (slug) => {
-  return collection.findOne({ slug });
+  return collection.findOne({ slug, status: "active" });
 };
 
 export const getProductBySlugAndSize = (slug, size) => {
   const query = {
+    status: "active",
     slug,
     "variants.size": size,
   };
@@ -56,7 +57,36 @@ export const getFeaturedProducts = (filter) => {
     options.limit = 12;
   }
 
-  return collection.find(filter, options).toArray();
+  return collection.find({ ...filter, status: "active" }, options).toArray();
+};
+
+export const getProductsForMenu = () => {
+  return collection
+    .aggregate([
+      { $match: { status: "active" } },
+      {
+        $group: {
+          _id: {
+            subCategoryId: "$subCategoryId",
+            categoryId: "$categoryId",
+          },
+          products: { $push: "$$ROOT" }, // Push the entire document into the products array
+        },
+      },
+      {
+        $group: {
+          _id: { categoryId: "$_id.categoryId" },
+          subCategories: {
+            $push: {
+              subCategoryId: "$_id.subCategoryId",
+              products: "$products",
+            },
+          },
+        },
+      },
+      { $sort: { _id: -1 } }, // Sort the categories
+    ])
+    .toArray();
 };
 
 export const updateAProductQtyBySlugAndSize = (slug, size, qty) => {

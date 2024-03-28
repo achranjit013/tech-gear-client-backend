@@ -3,6 +3,7 @@ import {
   getAProductBySlug,
   getFeaturedProducts,
   getProductBySlugAndSize,
+  getProductsForMenu,
   updateAProductQtyBySlugAndSize,
 } from "../model/ProductModel.js";
 import { responder } from "../middlewares/response.js";
@@ -14,9 +15,10 @@ const router = express.Router();
 
 router.get("/:slug?", async (req, res, next) => {
   try {
-    const { ids, slug, size, categoryId, subCategoryId } = req.query;
+    const { ids, slug, size, categoryId, subCategoryId, menu } = req.query;
 
     const objectIds = ids?.split(",").map((id) => new ObjectId(id));
+
     const filter = ids
       ? { _id: { $in: objectIds } }
       : categoryId
@@ -30,6 +32,8 @@ router.get("/:slug?", async (req, res, next) => {
         ? await getProductBySlugAndSize(slug, size)
         : req.params.slug
         ? await getAProductBySlug(req.params.slug)
+        : menu
+        ? await getProductsForMenu()
         : await getFeaturedProducts(filter);
 
     responder.SUCESS({

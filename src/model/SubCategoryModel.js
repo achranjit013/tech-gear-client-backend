@@ -28,11 +28,6 @@ export const getFilteredSubCategories = (filter) => {
 };
 
 export const getAllSubCategories = (filter) => {
-  // optional params
-  // const options = {
-  //   sort: { createdAt: -1 },
-  // };
-
   return collection
     .aggregate([
       { $match: filter },
@@ -54,6 +49,4 @@ export const getAllSubCategories = (filter) => {
       { $sort: { "subCat.createdAt": -1 } },
     ])
     .toArray();
-
-  // return collection.find(filter, options).toArray();
 };
